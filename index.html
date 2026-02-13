@@ -2,96 +2,32 @@
 <html>
 
 <head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
   <base href="/SurvivorShooter/">
-  
-  <script>
-    window.audioCtx = null;
-    
-    window.initAudio = function() {
-      if (!window.audioCtx) {
-        window.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      if (window.audioCtx.state === 'suspended') {
-        window.audioCtx.resume();
-      }
-    };
-    
-    window.playTone = function(freq, duration, type) {
-      try {
-        window.initAudio();
-        var osc = window.audioCtx.createOscillator();
-        var gain = window.audioCtx.createGain();
-        osc.connect(gain);
-        gain.connect(window.audioCtx.destination);
-        osc.type = type || 'square';
-        osc.frequency.value = freq;
-        gain.gain.setValueAtTime(0.1, window.audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, window.audioCtx.currentTime + duration);
-        osc.start(window.audioCtx.currentTime);
-        osc.stop(window.audioCtx.currentTime + duration);
-      } catch(e) {}
-    };
-    
-    window.playExplosion = function() {
-      try {
-        window.initAudio();
-        var duration = 0.3;
-        var bufferSize = window.audioCtx.sampleRate * duration;
-        var buffer = window.audioCtx.createBuffer(1, bufferSize, window.audioCtx.sampleRate);
-        var data = buffer.getChannelData(0);
-        for (var i = 0; i < bufferSize; i++) {
-          data[i] = Math.random() * 2 - 1;
-        }
-        var noise = window.audioCtx.createBufferSource();
-        noise.buffer = buffer;
-        var gain = window.audioCtx.createGain();
-        gain.gain.setValueAtTime(0.15, window.audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, window.audioCtx.currentTime + duration);
-        noise.connect(gain);
-        gain.connect(window.audioCtx.destination);
-        noise.start();
-      } catch(e) {}
-    };
-    
-    window.playCollect = function() {
-      try {
-        window.initAudio();
-        var now = window.audioCtx.currentTime;
-        var osc1 = window.audioCtx.createOscillator();
-        var gain1 = window.audioCtx.createGain();
-        osc1.connect(gain1);
-        gain1.connect(window.audioCtx.destination);
-        osc1.frequency.setValueAtTime(1200, now);
-        osc1.type = 'sine';
-        gain1.gain.setValueAtTime(0.1, now);
-        gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
-        osc1.start(now);
-        osc1.stop(now + 0.15);
-        
-        var osc2 = window.audioCtx.createOscillator();
-        var gain2 = window.audioCtx.createGain();
-        osc2.connect(gain2);
-        gain2.connect(window.audioCtx.destination);
-        osc2.frequency.setValueAtTime(1500, now + 0.05);
-        osc2.type = 'sine';
-        gain2.gain.setValueAtTime(0.1, now + 0.05);
-        gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
-        osc2.start(now + 0.05);
-        osc2.stop(now + 0.2);
-      } catch(e) {}
-    };
-  </script>
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="Survivor Shooter Game">
+  <meta name="description" content="A new Flutter project.">
 
+  <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Survivor Shooter">
+  <meta name="apple-mobile-web-app-title" content="survivor_shooter">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png" />
 
   <title>Survivor Shooter</title>
